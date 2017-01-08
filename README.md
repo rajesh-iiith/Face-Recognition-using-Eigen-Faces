@@ -1,13 +1,18 @@
 ---------------------------------LOADING THE DATA--------------------------------
 
 Before running any experiment, please load the data.
+
 Steps:
+
 1. Go to command window in MATLAB
+
 2. for loading the YALE Data set, execute the following command.
 	[ y_trainSet, y_testSet, y_trainLabels, y_testLabels ] = LoadData('Y', 2);
+
    for loading the CMU-PIE data set, execute the following command.		
 	[ c_trainSet, c_testSet, c_trainLabels, c_testLabels ] = LoadData('C', 4);
- Note: second argument of the LoadData function represents the fold id: (1/2/3/4)
+ 
+Note: second argument of the LoadData function represents the fold id: (1/2/3/4)
 
 
 
