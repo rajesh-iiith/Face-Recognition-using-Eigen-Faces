@@ -1,0 +1,23 @@
+function [ trainSet, testSet, trainLabels, testLabels ] = splitData( resizedDataSet, id ,Labels)
+
+k=4;
+numberOfSubjects=38;
+trainCount=1;
+testCount=1;
+[rows, columns] = size(resizedDataSet);
+for i=1:rows
+    remainder=rem(i,20);
+    if remainder>=1 && remainder<=5
+        testSet(testCount,:)=resizedDataSet(i,:);
+        testLabel(testCount,1)=Labels(i,1)
+        testCount=testCount+1;
+        
+    end
+    
+    
+end
+
+
+
+end
+

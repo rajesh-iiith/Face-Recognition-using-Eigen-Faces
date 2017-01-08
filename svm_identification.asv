@@ -1,0 +1,12 @@
+function [ ] = svm_identification( dataSetId, foldId, modeId )
+
+
+    
+
+    model = svmtrain(trainLabels, fv_train', '-t 0');
+   [predict_label, accuracy, dec_values] = svmpredict(testLabels, fv_test', model);
+   
+
+
+end
+

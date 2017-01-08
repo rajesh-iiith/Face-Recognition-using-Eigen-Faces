@@ -1,0 +1,37 @@
+function [ ] = identify( dataSetId, imagePath, trainSet, trainLabels )
+
+eigenSpaceDimension = 7;
+
+%yale
+if (dataSetId=='Y')
+    h=100;
+end
+
+%CMU
+if (dataSetId=='C')
+    h=32;
+end
+
+inputImage = imread(imagePath);
+inputImage = imresize(inputImage, [h, h]);
+testSet(1, :) = reshape(inputImage', 1, h*h);
+
+%yale
+if (dataSetId=='Y')
+    noOfSubjects=38;
+    h=100;
+end
+
+%CMU
+if (dataSetId=='C')
+    noOfSubjects=68;
+    h=32;
+end
+
+[ fv_train, fv_test ] = EigenSpaceMapping( B, testSet,eigenFaces,meanVector );
+[computedLabels] = getKNN(noOfSubjects, fv_train, fv_test, trainLabels);
+display(computedLabels);
+
+
+end
+

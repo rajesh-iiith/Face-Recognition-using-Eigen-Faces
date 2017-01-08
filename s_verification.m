@@ -1,0 +1,62 @@
+function [accuracy ,fv_train] = s_verification(dataSetId,testImageId)
+
+%-----------------------------------------------------------
+% Finding accuracy for verification task: Student data set
+%-----------------------------------------------------------
+
+% dimension of eigen space
+eigenSpaceDimension = 45;
+theta=0.4;
+
+[ s_trainSet, s_testSet, s_trainLabels, s_testLabels ] = LoadData('S', testImageId);
+[noOfSubjects,~]=size(unique(s_trainLabels));
+
+[ s_eigenFaces, s_B, s_meanVector, s_v] = createEigenFaces( s_trainSet , eigenSpaceDimension, dataSetId);
+[ fv_train, fv_test ] = EigenSpaceMapping( s_B, s_testSet, s_eigenFaces, s_meanVector );
+
+
+
+[~,c] = size(fv_test);
+[r1,~] = size(s_trainLabels);
+correctClaimAccuracy = 0;
+incorrectClaimAccuracy = 0;
+
+    for i=1:c
+        testImage=fv_test(:,i);
+        for j=1:noOfSubjects
+            claimId=j;
+            average=zeros(eigenSpaceDimension,1);
+            count=0;
+            for k=1:r1
+                if s_trainLabels(k,1)== claimId
+                    average=average+ fv_train(:,k);
+                    count=count+1;
+                end
+            end
+            average=average/count;
+            distance=sum((testImage-average).^2);
+            distance = distance / 10^7;
+%             if(i==1)
+%                 display(distance);
+%             end
+            if distance<theta
+               % Similar Image
+               if (claimId == s_testLabels(i,1))
+                   correctClaimAccuracy = correctClaimAccuracy + 1;
+               end
+            else
+               % Dissimilar Image
+               if(claimId ~= s_testLabels(i,1))
+                   incorrectClaimAccuracy = incorrectClaimAccuracy + 1;
+               end
+            end
+            
+        end
+    end
+    
+    display(incorrectClaimAccuracy);
+    display(correctClaimAccuracy);
+    accuracy=(incorrectClaimAccuracy + correctClaimAccuracy)/(c*noOfSubjects)*100;
+    display(accuracy);
+end
+

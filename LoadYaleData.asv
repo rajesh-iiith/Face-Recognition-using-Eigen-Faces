@@ -1,0 +1,38 @@
+function [ trainSet, testSet, trainLabels, testLabels,k ] = LoadData(dataSetId, foldId)
+
+% dimension of eigen space
+k=7;
+
+switch dataSetId
+    case 'Y'
+        % Load data and labels :YALE
+            load YaleDataSet.mat;
+            load YaleLabels.mat;
+            
+            % Preprocessing the data 
+            [ resizedDataSet ] = resizeOriginalDataSet( DataSet,100 );
+            [ trainSet, testSet, trainLabels, testLabels ] = splitData( resizedDataSet, foldId ,Labels);
+        
+    case 'C'
+            % Load data and labels :CMU
+            load CmuPieDataSet.mat;
+            load CmuPieLabels.mat;
+
+       
+
+            % Preprocessing the data 
+            [ resizedDataSet ] = resizeOriginalDataSet( CmuPieDataSet,32 );
+            [ trainSet, testSet, trainLabels, testLabels ] = splitData( resizedDataSet, foldId ,CmuPieLabels);
+
+    otherwise
+        disp('Enter Y/C');
+end
+
+
+
+
+
+
+
+end
+

@@ -1,0 +1,23 @@
+function [  ] = identification( dataSetId, trainSet, trainLabels, testSet, testLabels)
+
+%yale
+if (dataSetId=='Y')
+    noOfSubjects=38;
+end
+
+%CMU
+if (dataSetId=='C')
+    noOfSubjects=68;
+end
+
+% Calling LoadData
+[ ~, testSet, trainLabels, testLabels,~, eigenFaces, B, meanVector,~ ] = LoadData(dataSetId, foldId, modeId);
+
+[ fv_train, fv_test ] = EigenSpaceMapping( B, testSet,eigenFaces,meanVector );
+[~,c]=size(fv_test);
+[computedLabels] = getKNN(noOfSubjects, fv_train, fv_test, trainLabels);
+display((sum(computedLabels' == testLabels)/c)*100);
+
+
+end
+

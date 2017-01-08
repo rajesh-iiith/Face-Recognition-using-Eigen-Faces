@@ -1,0 +1,23 @@
+load StudentDataSet.mat;
+load studentTags.mat;
+
+count=1;
+
+for i=1:680
+    p=studentTags(i,1);
+    if sum(p==studentTags)<5
+        studentTags(i,2)=0;
+    else
+        studentTags(i,2)=1;
+    end
+end
+
+for i=1:680
+    
+    if studentTags(i,2)==1;
+        newStudentTags(count,1)=studentTags(i,1);
+        newStudentDataset()
+    else
+        studentTags(i,2)=1;
+    end
+end

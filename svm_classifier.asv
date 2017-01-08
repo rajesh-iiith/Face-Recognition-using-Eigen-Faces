@@ -1,0 +1,25 @@
+function [ ] = svm_classifier(numberOfClasses, fv_train, fv_test, trainLabels, testLabels,k  )
+fileID = fopen('svmFile.txt','w');
+[r,c] = size(fv_train);
+
+for i=1:c
+   t=trainLabels(i);
+   fprintf(fileID,'%1s',t);
+   
+   
+   for j=1:k
+       fprintf(fileID,'%1s',j);
+       fprintf(fileID,'%1s',':');
+       temp=fv_train(j,i);
+       fprintf(fileID,'%1s',t);
+   end
+   newline
+   
+end
+fclose(fileID);
+
+
+
+
+end
+

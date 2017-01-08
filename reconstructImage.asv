@@ -1,0 +1,38 @@
+function [imgRe] = reconstructImage(dataSetId, foldId, modeId, imagePath )
+    k=7;
+    
+    %yale
+if (dataSetId=='Y')
+    h=100;
+end
+
+%CMU
+if (dataSetId=='C')
+    h=32;
+end
+
+   
+    
+    [ ~, ~, ~, ~,k, eigenFaces, B, meanVector,~ ] = LoadData(dataSetId, foldId, modeId);
+    
+    
+    nonface = imread(imagePath);
+    nonface = imresize(nonface, [h, h]);
+    testSet(1, :) = reshape(nonface', 1, h*h);
+    
+    [ ~, fv_test ] = EigenSpaceMapping( B, testSet,eigenFaces,meanVector );
+    
+fvt = fv_test(:,1);
+img = zeros(h*h, 1);
+
+for i = 1:k
+img = img + fvt(i) * eigenFaces(:, i);
+end
+img = img + double(meanVector);
+% scaleImg = img/10^10;
+img = uint8(img);
+imgRe = reshape(img, h, h)';
+imshow(imgRe);
+
+end
+

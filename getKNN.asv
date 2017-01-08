@@ -1,0 +1,40 @@
+function [neighborPositions] = getKNN(k, fv_train, fv_test, trainLabels)
+%--------------------------------------------------------------------------
+%Calculation of position vector of k- nearest neighbours
+%--------------------------------------------------------------------------
+
+    [train_row, train_col] = size(fv_train);
+    [test_row, test_col] = size(fv_test);
+    
+    numberOfClasses = 38;
+
+    for i = 1:test_col
+        for j = 1:train_col
+            distance(j,:) = [sum((fv_test(:,i) - fv_train(:,j)).^2), trainLabels(j)];
+        end
+        distance = sortrows(distance, 1);
+        
+        tempLabel = zeros(numberOfClasses);
+        for z = 1:k
+            tempLabel(distance(z,2)) = tempLabel(distance(z,2)) + 1;
+        end
+        max(temp)
+        % computeLabels(i) = ?
+    end
+    
+    
+    
+    
+end
+
+% neighborPositions = zeros(size(testingMatrix_fv,1),k);
+% 
+% 
+% numTrainingVectors = size(trainingMatrix_fv,1);
+% numTestingVectors = size(testingMatrix_fv,1);
+% for i=1:numTestingVectors,
+%     distance = sum((repmat(testingMatrix_fv(i,:),numTrainingVectors,1)-trainingMatrix_fv).^2,2);
+%     [~, sortPosition] = sort(distance,'ascend');
+%     neighborPositions(i,:) = sortPosition(1:k);
+%     
+% end

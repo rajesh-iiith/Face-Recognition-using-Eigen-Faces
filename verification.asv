@@ -1,0 +1,69 @@
+function [ ] = verification(dataSetId, y_trainSet, y_te)
+
+% dimension of eigen space
+eigenSpaceDimension = 7;
+
+%yale
+if (dataSetId=='Y')
+    noOfSubjects=38;
+    theta=0.2;
+    % Creating EigenFaces using training set
+    [ y_eigenFaces, y_B, y_meanVector, y_v] = createEigenFaces( y_trainSet , eigenSpaceDimension, dataSetId);
+    [ fv_train, fv_test ] = EigenSpaceMapping( y_B, y_testSet, y_eigenFaces, y_meanVector );
+    trainLabels = y_trainLabels;
+    testLabels = y_testLabels;
+end
+
+%CMU
+if (dataSetId=='C')
+    noOfSubjects=68;
+    theta=0.02;
+    % Creating EigenFaces using training set
+    [ c_eigenFaces, c_B, c_meanVector, c_v] = createEigenFaces( y_trainSet , eigenSpaceDimension, dataSetId);
+    [ fv_train, fv_test ] = EigenSpaceMapping( c_B, c_testSet, c_eigenFaces, c_meanVector );
+    trainLabels = c_trainLabels;
+    testLabels = c_testLabels;
+end
+
+[~,c] = size(fv_test);
+[r1,~] = size(trainLabels);
+correctClaimAccuracy = 0;
+incorrectClaimAccuracy = 0;
+
+    for i=1:c
+        testImage=fv_test(:,i);
+        for j=1:noOfSubjects
+            claimId=j;
+            average=zeros(k1,1);
+            count=0;
+            for k=1:r1
+                if trainLabels(k,1)== claimId
+                    average=average+ fv_train(:,k);
+                    count=count+1;
+                end
+            end
+            average=average/count;
+            distance=sum((testImage-average).^2);
+            distance = distance / 10^7;
+%             if(i==1)
+%                 display(distance);
+%             end
+            if distance<theta
+               % Similar Image
+               if (claimId == testLabels(i,1))
+                   correctClaimAccuracy = correctClaimAccuracy + 1;
+               end
+            else
+               % Dissimilar Image
+               if(claimId ~= testLabels(i,1))
+                   incorrectClaimAccuracy = incorrectClaimAccuracy + 1;
+               end
+            end
+            
+        end
+    end
+    
+    %display(incorrectClaimAccuracy + correctClaimAccuracy);
+    display((incorrectClaimAccuracy + correctClaimAccuracy)/(c*noOfSubjects)*100);
+end
+
