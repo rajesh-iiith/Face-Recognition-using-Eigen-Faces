@@ -1,4 +1,5 @@
 ---------------------------------LOADING THE DATA--------------------------------
+
 Before running any experiment, please load the data.
 Steps:
 1. Go to command window in MATLAB
@@ -72,6 +73,7 @@ CMU-PIE:
 
 
 -------------------------------FIND THE ACCURACY: VERIFICATION-------------------------
+
 Run the following command in the comand window:
 
 YALE:
@@ -87,12 +89,14 @@ CMU-PIE:
 
 
 -------------------------------FIND THE ACCURACY: IDENTIFICATION[SVM]-------------------------
+
 Run the following command in the comand window:
 
 	svm_identification(y_trainLabels, y_testLabels, y_fv_train, y_fv_test);
 
 
 -------------------------------RECONSTRUCT IMAGE-----------------------------------------------
+
 Run the following command in the comand window:
 
 
